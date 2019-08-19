@@ -32,7 +32,7 @@ preprocess_signal <- function(file){
   mA_filt <- Ma(5)
   
   #Apply the filter to the data
-  data_Ma <- filter(mA_filt, temp[,3])
+  data_Ma <- signal::filter(mA_filt, temp[,3])
   
   #Generate a high pass butterworth filter 
   fc <- 1 #Cut-off frequency 
@@ -43,7 +43,7 @@ preprocess_signal <- function(file){
   high_filt <- butter(5,W, type = "high")
   
   #Apply high-pass filter to data
-  data_high <- filter(high_filt,data_Ma)
+  data_high <- signal::filter(high_filt,data_Ma)
   
   #Create a low pass buttorworth filter
   fc <- 30
@@ -53,7 +53,7 @@ preprocess_signal <- function(file){
   low_filt <- butter(5, W, type = "low")
   
   #Apply low-pass filter to data
-  data_low <- filter(low_filt,data_high)
+  data_low <- signal::filter(low_filt,data_high)
   
   temp[,3] <- data_low
   colnames(temp) <- c("ID", "time", "signal", "label")

@@ -7,11 +7,11 @@ calculate_counts <- function(section){
   fSignal = filtfilt(B,A,signal)
   fSignal_abs = abs(fSignal)
   
-  count1 = numeric(8)
-  count2 = numeric(8)
-  count3 = numeric(8)
+  count1 = numeric(4)
+  count2 = numeric(4)
+  count3 = numeric(4)
   
-  for (i in 0:7){
+  for (i in 0:3){
     intervaled_signal = fSignal[((i*samp_rate)+1):((i*samp_rate)+samp_rate)]
     max_signal = max(intervaled_signal)
     mean_signal = mean(intervaled_signal)
@@ -26,10 +26,10 @@ calculate_counts <- function(section){
   count2 = sum(count2)
   count3 = sum(count3)
   
-  c1 = count1/8
-  c2 = count2/8
-  c3 = count3/8
+  c1 = count1/4
+  c2 = count2/4
+  c3 = count3/4
   
   c3b = c1*c2/c3;
-  return(c(c1,c2,c3b))
+  return(list(c1 = c1,c2 = c2,c3 = c3b ))
 }

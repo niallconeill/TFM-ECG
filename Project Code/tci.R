@@ -1,9 +1,9 @@
 tci <- function(section){
   
-  tci6 = numeric(6)
+  tci6 = numeric(2)
   
     
-    for (j in 1:6){
+    for (j in 1:2){
       becg1 = numeric(samp_rate)
       becg2 = numeric(samp_rate)
       becg3 = numeric(samp_rate)
