@@ -83,25 +83,6 @@ predictandCM <- function(model,data)
 {
   pred <-predict(model,data,type="raw")
   confusionMatrix(pred, reference=testData$label)
-  roc_curve(model)
-}
-
-roc_curve <- function(model){
-  pred <-predict(model,data,type="prob")
-  pROC_obj <- roc(testData$label,as.vector(pred[,"NSh"]),
-                  smooth = TRUE,
-                  # arguments for ci
-                  ci=TRUE, ci.alpha=0.9, stratified=FALSE,
-                  # arguments for plot
-                  plot=TRUE, auc.polygon=TRUE, max.auc.polygon=TRUE, grid=TRUE,
-                  print.auc=TRUE, show.thres=TRUE)
-  
-  
-  #sens.ci <- ci.se(pROC_obj)
-  #plot(sens.ci, type="shape", col="lightblue")
-  ## Warning in plot.ci.se(sens.ci, type = "shape", col = "lightblue"): Low
-  ## definition shape.
-  #plot(sens.ci, type="bars")
 }
 
 ############### Descriptive Analysis ########################
@@ -128,8 +109,6 @@ table(vfdb_data$label)
 table(all_data$label)
 #  NSh   Sh 
 #  8942 2109 
-
-
 
 skimmed_all <- skim_to_wide(all_data)
 
@@ -443,7 +422,7 @@ predictandCM(adaboost.m1,testDatax)
 #        'Positive' Class : NSh
 
 #Importance Plot 
-importanceplot(adaboost.m1)
+importanceplot(adaboost.m1$finalModel)
 
 ############### XGBTree ######################################
 
@@ -503,7 +482,7 @@ predictandCM(xgb,testDatax)
 xgb_importance <- xgb.importance(feature_names = xgb$finalModel$feature_names,
                                  model = xgb$finalModel)
 
-# Feature        Gain      Cover  Frequency
+#    Feature        Gain      Cover  Frequency
 # 1:  count3 0.309942717 0.13971989 0.11837655
 # 2:  vfleak 0.274363847 0.15079187 0.12175874
 # 3:     mav 0.121862874 0.18016828 0.17361894
@@ -682,6 +661,7 @@ predictandCM(smote_adaboost,testDatax)
 #                                           
 #        'Positive' Class : NSh
 
+
 # Smote Adaboost.M1 
 set.seed(100)
 
@@ -849,26 +829,145 @@ importanceplot(smote_adabag$finalModel)
 # Next these methods are investigated further with Hyperparameter
 # Tuning
 
-tunegrid_xgb <- expand.grid(nrounds = c(150,400,600), 
-                            max_depth = c(5, 10, 15), 
-                            eta = c(0.01, 0.001, 0.0001), 
-                            gamma = c(0,1,2), 
-                            colsample_bytree = c(0.4, 0.8, 1.0), 
-                            min_child_weight = c(0.5, 1, 1.5),
-                            subsample = c(0.5, 0.7, 1.0))
-set.seed(100)
+fitControl_xgbgrid <- trainControl(method = "repeatedcv",
+                                number = 10,
+                                repeats = 3, classProbs = TRUE,
+                                allowParallel = TRUE,
+                                search = 'grid')
 
+tunegrid_xgb <- expand.grid(nrounds = c(150,400,600), 
+                            max_depth = c(3, 5, 10), 
+                            eta = c(0,6, 0.4, 0.1), 
+                            gamma = 0, 
+                            colsample_bytree = 0.8, 
+                            min_child_weight = 1,
+                            subsample = c(0.7, 1.0))
+set.seed(100)
+start_time <- Sys.time()
 xgb_tune <- train(label ~ ., 
                   data = trainData,
                   method = 'xgbTree',
                   metric = 'Accuracy',
                   preProc = c("center","scale"),
-                  tuneLength = 30,
-                  trControl = fitControl_random,
+                  trControl = fitControl_xgbgrid,
                   tuneGrid = tunegrid_xgb)
+end_time <- Sys.time()
+
+xgb_tuneTime <- end_time - start_time
+# Time difference of 25.05532 mins
 
 predictandCM(xgb_tune,testDatax)
 
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh         1756  33
+# Sh           32   388
+# 
+# Accuracy : 0.9706          
+# 95% CI : (0.9626, 0.9772)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : <2e-16          
+# 
+# Kappa : 0.9045          
+# 
+# Mcnemar's Test P-Value : 1               
+#                                           
+#             Sensitivity : 0.9821          
+#             Specificity : 0.9216          
+#          Pos Pred Value : 0.9816          
+#          Neg Pred Value : 0.9238          
+#              Prevalence : 0.8094          
+#          Detection Rate : 0.7949          
+#    Detection Prevalence : 0.8099          
+#       Balanced Accuracy : 0.9519          
+#                                           
+#        'Positive' Class : NSh 
+
+xgbtune_importance <- xgb.importance(feature_names = xgb_tune$finalModel$feature_names,
+                                 model = xgb_tune$finalModel)
+
+#    Feature       Gain      Cover  Frequency
+# 1:  vfleak 0.35044061 0.16596447 0.11050940
+# 2:  count3 0.18113454 0.12904698 0.10229707
+# 3:     mav 0.10270941 0.17865393 0.14722685
+# 4:     tci 0.09343515 0.07801008 0.10069031
+# 5:  count1 0.05224208 0.07376983 0.07635087
+# 6:  frqbin 0.04735132 0.08272762 0.06331826
+# 7:   cvbin 0.04435725 0.05166635 0.06308022
+# 8:    kurt 0.03649473 0.07573553 0.08545584
+# 9:  count2 0.03298386 0.05960176 0.08039752
+# 10:    abin 0.02958711 0.03785437 0.05409426
+# 11:     exp 0.01500409 0.03923526 0.04736967
+# 12:      cm 0.01425985 0.02773382 0.06920971
+
+tunegrid_smotexgb <- expand.grid(nrounds = c(600,800,1000), 
+                            max_depth = c(7, 10, 15), 
+                            eta =  0.1, 
+                            gamma = 0, 
+                            colsample_bytree = 0.8, 
+                            min_child_weight = 1,
+                            subsample = c(0.7, 1.0))
+set.seed(100)
+start_time <- Sys.time()
+smotexgb_tune <- train(label ~ ., 
+                  data = smote_train,
+                  method = 'xgbTree',
+                  metric = 'Accuracy',
+                  preProc = c("center","scale"),
+                  trControl = fitControl_xgbgrid,
+                  tuneGrid = tunegrid_smotexgb)
+end_time <- Sys.time()
+
+smotexgb_tuneTime <- end_time - start_time
+# Time difference of 22.96349 mins
+
+predictandCM(smotexgb_tune,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1742   20
+# Sh           46  401
+# 
+# Accuracy : 0.9701          
+# 95% CI : (0.9621, 0.9768)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.9054          
+# 
+# Mcnemar's Test P-Value : 0.002089        
+#                                           
+#             Sensitivity : 0.9743          
+#             Specificity : 0.9525          
+#          Pos Pred Value : 0.9886          
+#          Neg Pred Value : 0.8971          
+#              Prevalence : 0.8094          
+#          Detection Rate : 0.7886          
+#    Detection Prevalence : 0.7976          
+#       Balanced Accuracy : 0.9634          
+#                                           
+#        'Positive' Class : NSh 
+
+smote_xgbtune_importance <- xgb.importance(feature_names = smotexgb_tune$finalModel$feature_names,
+                                     model = smotexgb_tune$finalModel)
+
+#    Feature       Gain      Cover  Frequency
+# 1:  vfleak 0.31441732 0.15735955 0.10500074
+# 2:  count3 0.26484691 0.14924611 0.09404157
+# 3:     mav 0.10484547 0.16096179 0.14044528
+# 4:     tci 0.06139532 0.09172696 0.09221504
+# 5:  frqbin 0.05069624 0.10145212 0.08471146
+# 6:   cvbin 0.04000696 0.04412842 0.05662240
+# 7:    abin 0.03980541 0.05589187 0.06748285
+# 8:  count2 0.03222921 0.06062208 0.07794836
+# 9:    kurt 0.03042812 0.05942829 0.07933060
+# 10:  count1 0.02605383 0.04006997 0.06684109
+# 11:     exp 0.02317758 0.05224075 0.06763094
+# 12:      cm 0.01209764 0.02687209 0.06772967
 
 #############################################################
 
@@ -885,7 +984,7 @@ linear_svm <- train(label ~ .,
 end_time <- Sys.time()
 
 linSVMTime <- end_time - start_time
-# Linear SVM Training Time = 29.61545 seconds
+# Linear SVM Training Time = 29.61545 seconds = 0.49359 mins
 
 predictandCM(linear_svm,testDatax)
 
@@ -1070,7 +1169,7 @@ log_reg <- train(label ~ .,
 end_time <- Sys.time()
 
 logregTime <- end_time - start_time
-# Logistic Regression Training Time = 2.869243 secs
+# Logistic Regression Training Time = 2.869243 secs = 0.04782 mins
 
 predictandCM(log_reg,testDatax)
 
@@ -1101,6 +1200,7 @@ predictandCM(log_reg,testDatax)
 #                                           
 #        'Positive' Class : NSh 
 
+log_reg$finalModel$coefficients
 
 ######################## ROC Curves #########################
 par(pty = "s")
@@ -1152,6 +1252,16 @@ roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
 
 # SMOTE Adabag
 pred <- predict(smote_adabag, testDatax, type = "prob")
+roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+    lwd=4, print.auc=TRUE)
+
+# XGBoost Tune
+pred <- predict(xgb_tune, testDatax, type = "prob")
+roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+    lwd=4, print.auc=TRUE)
+
+# SMOTE XGBoost Tune
+pred <- predict(smotexgb_tune, testDatax, type = "prob")
 roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
