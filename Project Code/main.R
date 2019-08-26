@@ -82,7 +82,7 @@ registerDoParallel(cl)
 predictandCM <- function(model,data)
 {
   pred <-predict(model,data,type="raw")
-  confusionMatrix(pred, reference=testData$label)
+  confusionMatrix(pred, reference=testData$label, positive = "Sh")
 }
 
 ############### Descriptive Analysis ########################
@@ -298,16 +298,16 @@ predictandCM(random_forest,testDatax)
 
 # Mcnemar's Test P-Value : 0.505           
 #                                           
-#             Sensitivity : 0.9793          
-#             Specificity : 0.8955          
-#          Pos Pred Value : 0.9755          
-#          Neg Pred Value : 0.9106          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7927          
-#    Detection Prevalence : 0.8126          
+#             Sensitivity : 0.8955          
+#             Specificity : 0.9793         
+#          Pos Pred Value : 0.9106         
+#          Neg Pred Value : 0.9755          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.2073          
+#    Detection Prevalence : 0.1874          
 #       Balanced Accuracy : 0.9374          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh 
 
 random_forest$finalModel$importance
 
@@ -353,8 +353,8 @@ predictandCM(adaboost,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh         1753  37
-# Sh           35   384
+# NSh        1753   37
+# Sh           35  384
 # 
 # Accuracy : 0.9674          
 # 95% CI : (0.9591, 0.9744)
@@ -365,16 +365,16 @@ predictandCM(adaboost,testDatax)
 # 
 # Mcnemar's Test P-Value : 0.9062          
 #                                           
-#             Sensitivity : 0.9804          
-#             Specificity : 0.9121          
-#          Pos Pred Value : 0.9793          
-#          Neg Pred Value : 0.9165          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7936          
-#    Detection Prevalence : 0.8103          
+#             Sensitivity : 0.9121          
+#             Specificity : 0.9804          
+#          Pos Pred Value : 0.9165          
+#          Neg Pred Value : 0.9793          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1738          
+#    Detection Prevalence : 0.1897          
 #       Balanced Accuracy : 0.9463          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh    
 
 set.seed(100)
 
@@ -398,28 +398,28 @@ predictandCM(adaboost.m1,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh        1748   39
-# Sh          40   382
+# NSh        1758   38
+# Sh           30  383
 # 
-# Accuracy : 0.9642          
-# 95% CI : (0.9556, 0.9716)
-# No Information Rate : 0.8094          
-# P-Value [Acc > NIR] : <2e-16          
+# Accuracy : 0.9692         
+# 95% CI : (0.9611, 0.976)
+# No Information Rate : 0.8094         
+# P-Value [Acc > NIR] : <2e-16         
 # 
-# Kappa : 0.8842          
+# Kappa : 0.8995         
 # 
-# Mcnemar's Test P-Value : 1               
-#                                           
-#             Sensitivity : 0.9776          
-#             Specificity : 0.9074          
-#          Pos Pred Value : 0.9782          
-#          Neg Pred Value : 0.9052          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7913          
-#    Detection Prevalence : 0.8090          
-#       Balanced Accuracy : 0.9425          
-#                                           
-#        'Positive' Class : NSh
+# Mcnemar's Test P-Value : 0.396          
+#                                          
+#             Sensitivity : 0.9097         
+#             Specificity : 0.9832         
+#          Pos Pred Value : 0.9274         
+#          Neg Pred Value : 0.9788         
+#              Prevalence : 0.1906         
+#          Detection Rate : 0.1734         
+#    Detection Prevalence : 0.1870         
+#       Balanced Accuracy : 0.9465         
+#                                          
+#        'Positive' Class : Sh 
 
 #Importance Plot 
 importanceplot(adaboost.m1$finalModel)
@@ -467,16 +467,16 @@ predictandCM(xgb,testDatax)
 # 
 # Mcnemar's Test P-Value : 0.5611          
 #                                           
-#             Sensitivity : 0.9810          
-#             Specificity : 0.9050          
-#          Pos Pred Value : 0.9777          
-#          Neg Pred Value : 0.9181          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7940          
-#    Detection Prevalence : 0.8121          
+#             Sensitivity : 0.9050          
+#             Specificity : 0.9810          
+#          Pos Pred Value : 0.9181          
+#          Neg Pred Value : 0.9777          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1725          
+#    Detection Prevalence : 0.1879          
 #       Balanced Accuracy : 0.9430          
 #                                           
-#        'Positive' Class : NSh
+#        'Positive' Class : Sh
 
 # XGBoost Feature Importance 
 xgb_importance <- xgb.importance(feature_names = xgb$finalModel$feature_names,
@@ -520,36 +520,38 @@ predictandCM(adabag,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh        1714   54
-# Sh           74  367
+# NSh        1715   52
+# Sh           73  369
 # 
-# Accuracy : 0.9421          
-# 95% CI : (0.9315, 0.9514)
+# Accuracy : 0.9434          
+# 95% CI : (0.9329, 0.9527)
 # No Information Rate : 0.8094          
 # P-Value [Acc > NIR] : < 2e-16         
 # 
-# Kappa : 0.8155          
+# Kappa : 0.82            
 # 
-# Mcnemar's Test P-Value : 0.09308         
+# Mcnemar's Test P-Value : 0.07364         
 #                                           
-#             Sensitivity : 0.9586          
-#             Specificity : 0.8717          
-#          Pos Pred Value : 0.9695          
-#          Neg Pred Value : 0.8322          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7759          
-#    Detection Prevalence : 0.8004          
-#       Balanced Accuracy : 0.9152          
+#             Sensitivity : 0.8765          
+#             Specificity : 0.9592          
+#          Pos Pred Value : 0.8348          
+#          Neg Pred Value : 0.9706          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1670          
+#    Detection Prevalence : 0.2001          
+#       Balanced Accuracy : 0.9178          
 #                                           
-#        'Positive' Class : NSh  
+#        'Positive' Class : Sh  
 
 # Adabag Feature Importance 
 adabag$finalModel$importance
 
-#   abin          cm      count1      count2      count3       cvbin 
-# 0.53795041  0.00000000  0.05675586  0.00000000 18.37300007  3.44052810 
+#      abin          cm      count1      count2      count3       cvbin     
+# 0.77190013  0.00000000  0.08516284  0.00000000 16.99487766  3.65420604 
+
 #     exp      frqbin        kurt         mav         tci      vfleak 
-# 0.00000000  2.97519547  0.00000000  3.43522547 12.23666414 58.94468049 
+# 0.00000000  1.51251477  0.04398820  2.92578310 13.50871826 60.50284901
+
 
 # Plot 
 importanceplot(adabag$finalModel)
@@ -579,43 +581,44 @@ predictandCM(smote_rf,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh         1735  19
-# Sh            53  402
+# NSh        1734   23
+# Sh           54  398
 # 
-# Accuracy : 0.9674          
-# 95% CI : (0.9591, 0.9744)
+# Accuracy : 0.9651          
+# 95% CI : (0.9566, 0.9724)
 # No Information Rate : 0.8094          
 # P-Value [Acc > NIR] : < 2.2e-16       
 # 
-# Kappa : 0.8975          
+# Kappa : 0.8901          
 # 
-# Mcnemar's Test P-Value : 0.0001006       
+# Mcnemar's Test P-Value : 0.0006289       
 #                                           
-#             Sensitivity : 0.9704          
-#             Specificity : 0.9549          
-#          Pos Pred Value : 0.9892          
-#          Neg Pred Value : 0.8835          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7854          
-#    Detection Prevalence : 0.7940          
-#       Balanced Accuracy : 0.9626          
+#             Sensitivity : 0.9454          
+#             Specificity : 0.9698          
+#          Pos Pred Value : 0.8805          
+#          Neg Pred Value : 0.9869          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1802          
+#    Detection Prevalence : 0.2046          
+#       Balanced Accuracy : 0.9576          
 #                                           
-#        'Positive' Class : NSh  
+#        'Positive' Class : Sh
+
 
 # Smote Random Forest Feature Importance 
 #            MeanDecreaseGini
-# tci            370.8693
-# mav            431.8484
-# count1         685.6580
-# count2         158.9173
-# count3        1081.1402
-# exp            124.8073
-# vfleak        1481.2317
-# cm             108.0878
-# cvbin          336.7601
-# frqbin         282.8979
-# abin           238.4519
-# kurt           487.0311
+# tci            422.6500
+# mav            432.8136
+# count1         649.7552
+# count2         161.4268
+# count3         973.4128
+# exp            154.7816
+# vfleak        1343.7350
+# cm             152.6989
+# cvbin          360.9955
+# frqbin         333.0339
+# abin           275.7742
+# kurt           525.8561
 
 set.seed(100)
 
@@ -638,28 +641,28 @@ predictandCM(smote_adaboost,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh         1736  14
-# Sh           52  407
+# NSh        1744   17
+# Sh           44  404
 # 
-# Accuracy : 0.9701          
-# 95% CI : (0.9621, 0.9768)
+# Accuracy : 0.9724          
+# 95% CI : (0.9647, 0.9788)
 # No Information Rate : 0.8094          
 # P-Value [Acc > NIR] : < 2.2e-16       
 # 
-# Kappa : 0.9064          
+# Kappa : 0.9126          
 # 
-# Mcnemar's Test P-Value : 5.254e-06       
+# Mcnemar's Test P-Value : 0.0008717       
 #                                           
-#             Sensitivity : 0.9709          
-#             Specificity : 0.9667          
-#          Pos Pred Value : 0.9920          
-#          Neg Pred Value : 0.8867          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7859          
-#    Detection Prevalence : 0.7922          
-#       Balanced Accuracy : 0.9688          
+#             Sensitivity : 0.9596          
+#             Specificity : 0.9754          
+#          Pos Pred Value : 0.9018          
+#          Neg Pred Value : 0.9903          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1829          
+#    Detection Prevalence : 0.2028          
+#       Balanced Accuracy : 0.9675          
 #                                           
-#        'Positive' Class : NSh
+#        'Positive' Class : Sh
 
 
 # Smote Adaboost.M1 
@@ -683,28 +686,28 @@ predictandCM(smote_adaboost.m1,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh        1728   25
-# Sh           60  396
+# NSh        1719   27
+# Sh           69  394
 # 
-# Accuracy : 0.9615          
-# 95% CI : (0.9526, 0.9692)
+# Accuracy : 0.9565          
+# 95% CI : (0.9472, 0.9647)
 # No Information Rate : 0.8094          
 # P-Value [Acc > NIR] : < 2.2e-16       
 # 
-# Kappa : 0.8791          
+# Kappa : 0.8643          
 # 
-# Mcnemar's Test P-Value : 0.0002262       
+# Mcnemar's Test P-Value : 2.857e-05       
 #                                           
-#             Sensitivity : 0.9664          
-#             Specificity : 0.9406          
-#          Pos Pred Value : 0.9857          
-#          Neg Pred Value : 0.8684          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7823          
-#    Detection Prevalence : 0.7936          
-#       Balanced Accuracy : 0.9535          
+#             Sensitivity : 0.9359          
+#             Specificity : 0.9614          
+#          Pos Pred Value : 0.8510          
+#          Neg Pred Value : 0.9845          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1784          
+#    Detection Prevalence : 0.2096          
+#       Balanced Accuracy : 0.9486          
 #                                           
-#        'Positive' Class : NSh  
+#        'Positive' Class : Sh  
 
 importanceplot(smote_adaboost.m1$finalModel)
 
@@ -728,47 +731,47 @@ predictandCM(smote_xgb,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh        1727   24
-# Sh           61   397
+# NSh        1732   25
+# Sh           56  396
 # 
-# Accuracy : 0.9615          
-# 95% CI : (0.9526, 0.9692)
+# Accuracy : 0.9633          
+# 95% CI : (0.9546, 0.9708)
 # No Information Rate : 0.8094          
 # P-Value [Acc > NIR] : < 2.2e-16       
 # 
-# Kappa : 0.8793          
+# Kappa : 0.8844          
 # 
-# Mcnemar's Test P-Value : 9.432e-05       
+# Mcnemar's Test P-Value : 0.0008581       
 #                                           
-#             Sensitivity : 0.9659          
-#             Specificity : 0.9430          
-#          Pos Pred Value : 0.9863          
-#          Neg Pred Value : 0.8668          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7818          
-#    Detection Prevalence : 0.7927          
-#       Balanced Accuracy : 0.9544          
+#             Sensitivity : 0.9406          
+#             Specificity : 0.9687          
+#          Pos Pred Value : 0.8761          
+#          Neg Pred Value : 0.9858          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1793          
+#    Detection Prevalence : 0.2046          
+#       Balanced Accuracy : 0.9546          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh
 
 # Smote XGBoost Feature Importance
 # XGBoost Feature Importance 
 smote_xgb_importance <- xgb.importance(feature_names = smote_xgb$finalModel$feature_names,
                                  model = smote_xgb$finalModel)
 
-# Feature       Gain      Cover     Frequency
-# 1:  vfleak 0.48368859 0.16333542 0.10718002
-# 2:     mav 0.11251513 0.14279959 0.15712799
-# 3:  count3 0.10201943 0.12439563 0.10926119
-# 4:     tci 0.06513840 0.06841601 0.06971904
-# 5:  frqbin 0.04296586 0.08237922 0.07284079
-# 6:   cvbin 0.04004555 0.05735034 0.05931322
-# 7:    abin 0.03603544 0.05436554 0.06867846
-# 8:     exp 0.03528234 0.07262514 0.06867846
-# 9:  count1 0.02988321 0.07147788 0.08116545
-# 10:  count2 0.02308330 0.05875549 0.07700312
-# 11:    kurt 0.01722918 0.06443335 0.07596254
-# 12:      cm 0.01211358 0.03966640 0.05306972
+#    Feature        Gain      Cover  Frequency
+# 1:  count3 0.338686735 0.13409033 0.10741139
+# 2:  vfleak 0.271058007 0.12873373 0.10633727
+# 3:     mav 0.111610613 0.18588957 0.16756176
+# 4:   cvbin 0.067421030 0.06218600 0.05155747
+# 5:  frqbin 0.043182255 0.09527376 0.09667025
+# 6:     tci 0.041713701 0.07354897 0.07626208
+# 7:     exp 0.031208302 0.07908182 0.06229860
+# 8:    kurt 0.028802686 0.05964381 0.07518797
+# 9:    abin 0.028505988 0.04705384 0.06122449
+# 10:  count2 0.017228084 0.04180667 0.06659506
+# 11:  count1 0.015435319 0.06111288 0.08592911
+# 12:      cm 0.005147282 0.03157862 0.04296455
 
 set.seed(100)
 start_time <- Sys.time()
@@ -789,36 +792,36 @@ predictandCM(smote_adabag,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh         1623   44
-# Sh           165  377
+# NSh        1612   26
+# Sh          176  395
 # 
-# Accuracy : 0.9054          
-# 95% CI : (0.8924, 0.9173)
+# Accuracy : 0.9086          
+# 95% CI : (0.8958, 0.9203)
 # No Information Rate : 0.8094          
 # P-Value [Acc > NIR] : < 2.2e-16       
 # 
-# Kappa : 0.7237          
+# Kappa : 0.7391          
 # 
 # Mcnemar's Test P-Value : < 2.2e-16       
 #                                           
-#             Sensitivity : 0.9077          
-#             Specificity : 0.8955          
-#          Pos Pred Value : 0.9736          
-#          Neg Pred Value : 0.6956          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7347          
-#    Detection Prevalence : 0.7546          
-#       Balanced Accuracy : 0.9016          
+#             Sensitivity : 0.9382          
+#             Specificity : 0.9016          
+#          Pos Pred Value : 0.6918          
+#          Neg Pred Value : 0.9841          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1788          
+#    Detection Prevalence : 0.2585          
+#       Balanced Accuracy : 0.9199          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh 
 
 # SMOTE Adabag feature importance 
 smote_adabag$finalModel$importance
 
-# abin         cm       count1     count2     count3      cvbin 
-# 2.7810712  0.0000000  0.0000000  1.9996647  4.0034288  0.4893511 
-# exp        frqbin       kurt        mav        tci     vfleak 
-# 0.0000000  1.7259883  0.0000000  5.1440266  8.2145211 75.6419481 
+#   abin        cm    count1    count2    count3     cvbin  
+# 2.078302  0.000000  0.000000  1.711928  5.317259  0.613209
+#     exp     frqbin      kurt       mav       tci    vfleak 
+#  0.000000  5.843330  0.000000  5.686386  3.712559 75.037027  
 
 importanceplot(smote_adabag$finalModel)
 
@@ -862,8 +865,8 @@ predictandCM(xgb_tune,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh         1756  33
-# Sh           32   388
+# NSh        1756   33
+# Sh           32  388
 # 
 # Accuracy : 0.9706          
 # 95% CI : (0.9626, 0.9772)
@@ -874,16 +877,16 @@ predictandCM(xgb_tune,testDatax)
 # 
 # Mcnemar's Test P-Value : 1               
 #                                           
-#             Sensitivity : 0.9821          
-#             Specificity : 0.9216          
-#          Pos Pred Value : 0.9816          
-#          Neg Pred Value : 0.9238          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7949          
-#    Detection Prevalence : 0.8099          
+#             Sensitivity : 0.9216          
+#             Specificity : 0.9821          
+#          Pos Pred Value : 0.9238          
+#          Neg Pred Value : 0.9816          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1756          
+#    Detection Prevalence : 0.1901          
 #       Balanced Accuracy : 0.9519          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh  
 
 xgbtune_importance <- xgb.importance(feature_names = xgb_tune$finalModel$feature_names,
                                  model = xgb_tune$finalModel)
@@ -941,16 +944,16 @@ predictandCM(smotexgb_tune,testDatax)
 # 
 # Mcnemar's Test P-Value : 0.002089        
 #                                           
-#             Sensitivity : 0.9743          
-#             Specificity : 0.9525          
-#          Pos Pred Value : 0.9886          
-#          Neg Pred Value : 0.8971          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7886          
-#    Detection Prevalence : 0.7976          
+#             Sensitivity : 0.9525          
+#             Specificity : 0.9743          
+#          Pos Pred Value : 0.8971          
+#          Neg Pred Value : 0.9886          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1815          
+#    Detection Prevalence : 0.2024          
 #       Balanced Accuracy : 0.9634          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh 
 
 smote_xgbtune_importance <- xgb.importance(feature_names = smotexgb_tune$finalModel$feature_names,
                                      model = smotexgb_tune$finalModel)
@@ -992,8 +995,8 @@ predictandCM(linear_svm,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh         1744   84
-# Sh            44  337
+# NSh        1744   84
+# Sh           44  337
 # 
 # Accuracy : 0.9421          
 # 95% CI : (0.9315, 0.9514)
@@ -1004,17 +1007,18 @@ predictandCM(linear_svm,testDatax)
 # 
 # Mcnemar's Test P-Value : 0.0005665       
 #                                           
-#             Sensitivity : 0.9754          
-#             Specificity : 0.8005          
-#          Pos Pred Value : 0.9540          
-#          Neg Pred Value : 0.8845          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7895          
-#    Detection Prevalence : 0.8275          
+#             Sensitivity : 0.8005          
+#             Specificity : 0.9754          
+#          Pos Pred Value : 0.8845          
+#          Neg Pred Value : 0.9540          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1526          
+#    Detection Prevalence : 0.1725          
 #       Balanced Accuracy : 0.8879          
 #                                           
-#        'Positive' Class : NSh             
-                                
+#        'Positive' Class : Sh         
+
+tunegrid_svm <- expand.grid(C = c(0.5 , 0.75,1, 1.25, 1.5, 1.75, 2))                                
 
 set.seed(100)
 start_time <- Sys.time()
@@ -1047,17 +1051,61 @@ predictandCM(radial_svm,testDatax)
 # 
 # Mcnemar's Test P-Value : 0.8321          
 #                                           
-#             Sensitivity : 0.9760          
-#             Specificity : 0.8907          
-#          Pos Pred Value : 0.9743          
-#          Neg Pred Value : 0.8971          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7900          
-#    Detection Prevalence : 0.8108          
+#             Sensitivity : 0.8907          
+#             Specificity : 0.9760          
+#          Pos Pred Value : 0.8971          
+#          Neg Pred Value : 0.9743          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1698          
+#    Detection Prevalence : 0.1892          
 #       Balanced Accuracy : 0.9333          
 #                                           
-#        'Positive' Class : NSh             
-                               
+#        'Positive' Class : Sh          
+ 
+tunegrid_svm_radial  <- expand.grid(C = c(2, 2.5, 3, 3.5, 4, 5),
+                                    sigma = c(0.2, 0.3, 0.4, 0.5))
+set.seed(100)
+start_time <- Sys.time()
+radial_svm_tuned <- train(label ~ ., 
+                    data = trainData,
+                    method = 'svmRadial',
+                    metric = 'Accuracy',
+                    preProc = c("center","scale"),
+                    tuneGrid = tunegrid_svm_radial,
+                    trControl = fitControl_grid)
+end_time <- Sys.time()
+
+radialSVMTunedTime <- end_time - start_time
+# Radial SVM Tuned Training Time = 20.44994 mins 
+
+predictandCM(radial_svm_tuned,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1750   37
+# Sh           38  384
+# 
+# Accuracy : 0.966           
+# 95% CI : (0.9576, 0.9732)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : <2e-16          
+# 
+# Kappa : 0.8901          
+# 
+# Mcnemar's Test P-Value : 1               
+#                                           
+#             Sensitivity : 0.9121          
+#             Specificity : 0.9787          
+#          Pos Pred Value : 0.9100          
+#          Neg Pred Value : 0.9793          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1738          
+#    Detection Prevalence : 0.1910          
+#       Balanced Accuracy : 0.9454          
+#                                           
+#        'Positive' Class : Sh    
 
 set.seed(100)
 
@@ -1091,17 +1139,65 @@ predictandCM(poly_svm,testDatax)
 # 
 # Mcnemar's Test P-Value : 0.1422          
 #                                           
-#             Sensitivity : 0.9787          
-#             Specificity : 0.8741          
-#          Pos Pred Value : 0.9706          
-#          Neg Pred Value : 0.9064          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7922          
-#    Detection Prevalence : 0.8162          
+#             Sensitivity : 0.8741          
+#             Specificity : 0.9787          
+#          Pos Pred Value : 0.9064          
+#          Neg Pred Value : 0.9706          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1666          
+#    Detection Prevalence : 0.1838          
 #       Balanced Accuracy : 0.9264          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh  
 
+tunegrid_svm_poly  <- expand.grid(C = c(1, 2, 3),
+                                  degree = c(2,3, 4),
+                                  scale = c(0.1,0.01, 0.3))
+
+set.seed(100)
+
+start_time <- Sys.time()
+poly_svm_tuned <- train(label ~ ., 
+                  data = trainData,
+                  method = 'svmPoly',
+                  metric = 'Accuracy',
+                  preProc = c("center","scale"),
+                  tuneGrid = tunegrid_svm_poly,
+                  trControl = fitControl_grid)
+end_time <- Sys.time()
+
+polySVMTunedTime <- end_time - start_time
+# Poly SVM Training Time = 37.21755 mins 
+
+predictandCM(poly_svm_tuned,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1747   44
+# Sh           41  377
+# 
+# Accuracy : 0.9615          
+# 95% CI : (0.9526, 0.9692)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : <2e-16          
+# 
+# Kappa : 0.8749          
+# 
+# Mcnemar's Test P-Value : 0.8283          
+#                                           
+#             Sensitivity : 0.8955          
+#             Specificity : 0.9771          
+#          Pos Pred Value : 0.9019          
+#          Neg Pred Value : 0.9754          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1707          
+#    Detection Prevalence : 0.1892          
+#       Balanced Accuracy : 0.9363          
+#                                           
+#        'Positive' Class : Sh              
+                              
 ###### LS-SVMs ##############################################
 
 fitControl_lssvm <- trainControl(method = "repeatedcv",
@@ -1140,18 +1236,62 @@ predictandCM(radial_ls_svm,testDatax)
 # 
 # Mcnemar's Test P-Value : 2.418e-07       
 #                                           
-#             Sensitivity : 0.9793          
-#             Specificity : 0.7672          
-#          Pos Pred Value : 0.9470          
-#          Neg Pred Value : 0.8972          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7927          
-#    Detection Prevalence : 0.8370          
+#             Sensitivity : 0.7672          
+#             Specificity : 0.9793          
+#          Pos Pred Value : 0.8972          
+#          Neg Pred Value : 0.9470          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1462          
+#    Detection Prevalence : 0.1630          
 #       Balanced Accuracy : 0.8733          
 #                                           
-#        'Positive' Class : NSh   
+#        'Positive' Class : Sh   
 
+tunegrid_ls_svm  <- expand.grid(sigma = c(0.02133332, 0.01,0.005,0.001),
+                                  tau = c(0.01,0.0625, 0.005,0.001))
 
+set.seed(100)
+start_time <- Sys.time()
+radial_ls_svm_tuned1 <- train(label ~ ., 
+                       data = trainData,
+                       method = 'lssvmRadial',
+                       metric = 'Accuracy',
+                       preProc = c("center","scale"),
+                       tuneGrid = tunegrid_ls_svm,
+                       trControl = fitControl_lssvm)
+end_time <- Sys.time()
+
+radiallssvmTunedTime1 <- end_time - start_time
+# Radial LS-SVM training time = 22.03368 mins
+
+predictandCM(radial_ls_svm_tuned1,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1752   72
+# Sh           36  349
+# 
+# Accuracy : 0.9511          
+# 95% CI : (0.9413, 0.9597)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.8362          
+# 
+# Mcnemar's Test P-Value : 0.0007575       
+#                                           
+#             Sensitivity : 0.8290          
+#             Specificity : 0.9799          
+#          Pos Pred Value : 0.9065          
+#          Neg Pred Value : 0.9605          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1580          
+#    Detection Prevalence : 0.1743          
+#       Balanced Accuracy : 0.9044          
+#                                           
+#        'Positive' Class : Sh 
 
 
 ###### Logistic Regression ##################################
@@ -1177,8 +1317,8 @@ predictandCM(log_reg,testDatax)
 # 
 # Reference
 # Prediction  NSh   Sh
-# NSh        1739   88
-# Sh           49  333
+# NSh 1739   88
+# Sh    49  333
 # 
 # Accuracy : 0.938           
 # 95% CI : (0.9271, 0.9477)
@@ -1189,129 +1329,499 @@ predictandCM(log_reg,testDatax)
 # 
 # Mcnemar's Test P-Value : 0.001168        
 #                                           
-#             Sensitivity : 0.9726          
-#             Specificity : 0.7910          
-#          Pos Pred Value : 0.9518          
-#          Neg Pred Value : 0.8717          
-#              Prevalence : 0.8094          
-#          Detection Rate : 0.7872          
-#    Detection Prevalence : 0.8271          
+#             Sensitivity : 0.7910          
+#             Specificity : 0.9726          
+#          Pos Pred Value : 0.8717          
+#          Neg Pred Value : 0.9518          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1507          
+#    Detection Prevalence : 0.1729          
 #       Balanced Accuracy : 0.8818          
 #                                           
-#        'Positive' Class : NSh 
+#        'Positive' Class : Sh  
 
 log_reg$finalModel$coefficients
 
+######################## SMOTE SVMs ########################
+
+set.seed(100)
+start_time <- Sys.time()
+smote_radial_svm <- train(label ~ ., 
+                    data = smote_train,
+                    method = 'svmRadial',
+                    metric = 'Accuracy',
+                    preProc = c("center","scale"),
+                    trControl = fitControl_grid)
+end_time <- Sys.time()
+
+smote_radialSVMTime <- end_time - start_time
+# Radial SVM Training Time = 4.281759 mins 
+
+predictandCM(smote_radial_svm,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1723   25
+# Sh           65  396
+# 
+# Accuracy : 0.9593          
+# 95% CI : (0.9502, 0.9671)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.8726          
+# 
+# Mcnemar's Test P-Value : 3.94e-05        
+#                                           
+#             Sensitivity : 0.9406          
+#             Specificity : 0.9636          
+#          Pos Pred Value : 0.8590          
+#          Neg Pred Value : 0.9857          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1793          
+#    Detection Prevalence : 0.2087          
+#       Balanced Accuracy : 0.9521          
+#                                           
+#        'Positive' Class : Sh          
+
+smote_tunegrid_svm_radial  <- expand.grid(C = c(0.5, 1, 1.5,2),
+                                    sigma = c(0.01, 0.1, 0.15, 0.2))
+
+set.seed(100)
+start_time <- Sys.time()
+smote_radial_svm_tuned <- train(label ~ ., 
+                          data = smote_train,
+                          method = 'svmRadial',
+                          metric = 'Accuracy',
+                          preProc = c("center","scale"),
+                          tuneGrid = smote_tunegrid_svm_radial,
+                          trControl = fitControl_grid)
+end_time <- Sys.time()
+
+smote_radialSVMTunedTime <- end_time - start_time
+# Radial SVM Tuned Training Time = 22.17932 mins 
+
+predictandCM(smote_radial_svm_tuned,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1733   24
+# Sh           55  397
+# 
+# Accuracy : 0.9642          
+# 95% CI : (0.9556, 0.9716)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.8873          
+# 
+# Mcnemar's Test P-Value : 0.0007374       
+#                                           
+#             Sensitivity : 0.9430          
+#             Specificity : 0.9692          
+#          Pos Pred Value : 0.8783          
+#          Neg Pred Value : 0.9863          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1797          
+#    Detection Prevalence : 0.2046          
+#       Balanced Accuracy : 0.9561          
+#                                           
+#        'Positive' Class : Sh  
+
+set.seed(100)
+
+start_time <- Sys.time()
+smote_poly_svm <- train(label ~ ., 
+                  data = smote_train,
+                  method = 'svmPoly',
+                  metric = 'Accuracy',
+                  preProc = c("center","scale"),
+                  trControl = fitControl_grid)
+end_time <- Sys.time()
+
+smote_polySVMTime <- end_time - start_time
+# Poly SVM Training Time = 30.97086 mins 
+
+predictandCM(smote_poly_svm,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1726   25
+# Sh           62  396
+# 
+# Accuracy : 0.9606          
+# 95% CI : (0.9516, 0.9683)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.8765          
+# 
+# Mcnemar's Test P-Value : 0.0001136       
+#                                           
+#             Sensitivity : 0.9406          
+#             Specificity : 0.9653          
+#          Pos Pred Value : 0.8646          
+#          Neg Pred Value : 0.9857          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1793          
+#    Detection Prevalence : 0.2073          
+#       Balanced Accuracy : 0.9530          
+#                                           
+#        'Positive' Class : Sh   
+
+smote_tunegrid_svm_poly  <- expand.grid(C = c(0.75, 1,1.5, 2),
+                                  degree = 3,
+                                  scale = c(0.5,0.1,0.15,0.2))
+
+set.seed(100)
+
+start_time <- Sys.time()
+smote_poly_svm_tuned <- train(label ~ ., 
+                        data = smote_train,
+                        method = 'svmPoly',
+                        metric = 'Accuracy',
+                        preProc = c("center","scale"),
+                        tuneGrid = smote_tunegrid_svm_poly,
+                        trControl = fitControl_grid)
+end_time <- Sys.time()
+
+smote_polySVMTunedTime <- end_time - start_time
+# Time difference of 20.36202 mins 
+
+predictandCM(smote_poly_svm_tuned,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1718   23
+# Sh           70  398
+# 
+# Accuracy : 0.9579          
+# 95% CI : (0.9487, 0.9659)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.8691          
+# 
+# Mcnemar's Test P-Value : 1.842e-06       
+#                                           
+#             Sensitivity : 0.9454          
+#             Specificity : 0.9609          
+#          Pos Pred Value : 0.8504          
+#          Neg Pred Value : 0.9868          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1802          
+#    Detection Prevalence : 0.2119          
+#       Balanced Accuracy : 0.9531          
+#                                           
+#        'Positive' Class : Sh               
+
+###### SMOTE LS-SVMs ##############################################
+
+fitControl_lssvm <- trainControl(method = "repeatedcv",
+                                 number = 10,
+                                 repeats = 3,
+                                 search = 'grid')
+
+set.seed(100)
+start_time <- Sys.time()
+smote_radial_ls_svm <- train(label ~ ., 
+                       data = smote_train,
+                       method = 'lssvmRadial',
+                       metric = 'Accuracy',
+                       preProc = c("center","scale"),
+                       trControl = fitControl_lssvm)
+end_time <- Sys.time()
+
+smote_radiallssvmTime <- end_time - start_time
+# Radial LS-SVM training time = 4.434833 mins
+
+predictandCM(smote_radial_ls_svm,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1660   20
+# Sh          128  401
+# 
+# Accuracy : 0.933           
+# 95% CI : (0.9218, 0.9431)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.8022          
+# 
+# Mcnemar's Test P-Value : < 2.2e-16       
+#                                           
+#             Sensitivity : 0.9525          
+#             Specificity : 0.9284          
+#          Pos Pred Value : 0.7580          
+#          Neg Pred Value : 0.9881          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1815          
+#    Detection Prevalence : 0.2395          
+#       Balanced Accuracy : 0.9405          
+#                                           
+#        'Positive' Class : Sh 
+
+smote_tunegrid_ls_svm  <- expand.grid(sigma = c(0.02133332, 0.01,0.005,0.001),
+                                tau = c(0.01,0.0625, 0.005,0.001))
+
+set.seed(100)
+start_time <- Sys.time()
+smote_radial_ls_svm_tuned <- train(label ~ ., 
+                              data = smote_train,
+                              method = 'lssvmRadial',
+                              metric = 'Accuracy',
+                              preProc = c("center","scale"),
+                              tuneGrid = smote_tunegrid_ls_svm,
+                              trControl = fitControl_lssvm)
+end_time <- Sys.time()
+
+smote_radiallssvmTunedTime <- end_time - start_time
+# Radial LS-SVM training time = 11.17927 mins
+
+predictandCM(smote_radial_ls_svm_tuned,testDatax)
+
+# Confusion Matrix and Statistics
+# 
+# Reference
+# Prediction  NSh   Sh
+# NSh        1630   18
+# Sh          158  403
+# 
+# Accuracy : 0.9203          
+# 95% CI : (0.9082, 0.9313)
+# No Information Rate : 0.8094          
+# P-Value [Acc > NIR] : < 2.2e-16       
+# 
+# Kappa : 0.7709          
+# 
+# Mcnemar's Test P-Value : < 2.2e-16       
+#                                           
+#             Sensitivity : 0.9572          
+#             Specificity : 0.9116          
+#          Pos Pred Value : 0.7184          
+#          Neg Pred Value : 0.9891          
+#              Prevalence : 0.1906          
+#          Detection Rate : 0.1824          
+#    Detection Prevalence : 0.2540          
+#       Balanced Accuracy : 0.9344          
+#                                           
+#        'Positive' Class : Sh              
+                                
 ######################## ROC Curves #########################
 par(pty = "s")
 
 # Random Forest
 pred <- predict(random_forest, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # Adaboost
 pred <- predict(adaboost, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # Adaboost.M1
 pred <- predict(adaboost.m1, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # XGBoost
 pred <- predict(xgb, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # Adabag
 pred <- predict(adabag, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # SMOTE Random Forest
 pred <- predict(smote_rf, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # SMOTE Adaboost
 pred <- predict(smote_adaboost, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # SMOTE Adaboost.M1
 pred <- predict(smote_adaboost.m1, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # SMOTE XGBoost
 pred <- predict(smote_xgb, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # SMOTE Adabag
 pred <- predict(smote_adabag, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # XGBoost Tune
 pred <- predict(xgb_tune, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # SMOTE XGBoost Tune
 pred <- predict(smotexgb_tune, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # Linear SVM
 pred <- predict(linear_svm, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # Radial SVM 
-pred <- predict(radial_svm, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+pred <- predict(radial_svm_tuned, testDatax, type = "prob")
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # Poly SVM
-pred <- predict(poly_svm, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+pred <- predict(poly_svm_tuned, testDatax, type = "prob")
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 # Radial LS-SVM
 pred <- predict(radial_ls_svm, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 ## Doesn't Work 
 
 # Logistic Regression
 pred <- predict(log_reg, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
+# SMOTE Radial SVM
+pred <- predict(smote_radial_svm_tuned, testDatax, type = "prob")
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+    lwd=4, print.auc=TRUE)
+
+# SMOTE Poly SVM
+pred <- predict(smote_poly_svm, testDatax, type = "prob")
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+    lwd=4, print.auc=TRUE)
+
+# SMOTE LS-SVM
+pred <- predict(smote_radial_ls_svm, testDatax, type = "prob")
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+    lwd=4, print.auc=TRUE)
+#Doesn't Work 
+
 #Combined ROC Curves 
-# Random Forest, Adaboost, XGBoost, Adabag
+# Random Forest, Adaboost, XGBoost, Adabag, Radial SVM
 pred <- predict(random_forest, testDatax, type = "prob")
-roc(testDatay, pred[,1], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
     lwd=4, print.auc=TRUE)
 
 pred <- predict(adaboost, testDatax, type = "prob")
-plot.roc(testDatay, pred[,1], col="#F71313", add = TRUE,
+plot.roc(testDatay, pred[,2], col="#F71313", add = TRUE,
     lwd=4, print.auc=TRUE, print.auc.y = 0.45)
 
-pred <- predict(xgb, testDatax, type = "prob")
-plot.roc(testDatay, pred[,1], col="#0EF763", add=TRUE,
+pred <- predict(xgb_tune, testDatax, type = "prob")
+plot.roc(testDatay, pred[,2], col="#0EF763", add=TRUE,
     lwd=4, print.auc=TRUE, print.auc.y=0.4)
 
 pred <- predict(adabag, testDatax, type = "prob")
-plot.roc(testDatay, pred[,1], col="#F40EFC", add=TRUE,
+plot.roc(testDatay, pred[,2], col="#F40EFC", add=TRUE,
     lwd=4, print.auc=TRUE, print.auc.y=0.35)
 
-legend(0.3,0.4, legend=c("RF", "AdaBoost", "XGB", "AdaBag"),
-       col=c("#377eb8", "#F71313","#0EF763","#F40EFC"), lty = 1, cex = 0.3, pt.cex = 1, bty= 'n', pt.lwd = 0.4)
+# Radial SVM 
+pred <- predict(radial_svm_tuned, testDatax, type = "prob")
+plot.roc(testDatay, pred[,2], col="#F6CD00", add=TRUE,
+         lwd=4, print.auc=TRUE, print.auc.y=0.3)
+
+# Legend 
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend("topleft", legend =c("Random Forest", "AdaBoost", "XGBoost", "AdaBag", "Radial SVM"), pch=16, pt.cex=3, cex=0.6, bty='n',
+       col=c("#377eb8", "#F71313","#0EF763","#F40EFC","#F6CD00"))
+
+
+# SMOTE 
+pred <- predict(smote_rf, testDatax, type = "prob")
+roc(testDatay, pred[,2], plot = TRUE, legacy.axes=TRUE, col="#377eb8",
+    lwd=4, print.auc=TRUE)
+
+pred <- predict(smote_adaboost.m1, testDatax, type = "prob")
+plot.roc(testDatay, pred[,2], col="#F71313", add = TRUE,
+         lwd=4, print.auc=TRUE, print.auc.y = 0.45)
+
+pred <- predict(smotexgb_tune, testDatax, type = "prob")
+plot.roc(testDatay, pred[,2], col="#0EF763", add=TRUE,
+         lwd=4, print.auc=TRUE, print.auc.y=0.4)
+
+pred <- predict(smote_adabag, testDatax, type = "prob")
+plot.roc(testDatay, pred[,2], col="#F40EFC", add=TRUE,
+         lwd=4, print.auc=TRUE, print.auc.y=0.35)
+
+# Radial SVM 
+pred <- predict(smote_radial_svm_tuned, testDatax, type = "prob")
+plot.roc(testDatay, pred[,2], col="#F6CD00", add=TRUE,
+         lwd=4, print.auc=TRUE, print.auc.y=0.3)
+
+# SMOTE Poly SVM
+pred <- predict(smote_poly_svm, testDatax, type = "prob")
+plot.roc(testDatay, pred[,2], col="#04A809", add=TRUE,
+         lwd=4, print.auc=TRUE, print.auc.y=0.25)
+
+# Legend 
+plot(NULL ,xaxt='n',yaxt='n',bty='n',ylab='',xlab='', xlim=0:1, ylim=0:1)
+legend("topleft", legend =c("Random Forest", "AdaBoost", "XGBoost", "AdaBag", "Radial SVM", "Poly SVM"), pch=16, pt.cex=1.8, cex=0.6, bty='n',
+       col=c("#377eb8", "#F71313","#0EF763","#F40EFC","#F6CD00", "#04A809" ))
 
 par(pty="m")
+
+#############################################################
+#Feature Importance plot 
+# Adaboost 
+adaboost.importance <- data.frame(Features = c("abin", "cm", "count1", "count2", "count3", "cvbin", "exp", "frqbin", "kurt", "mav", "tci", "vfleak"),
+                                  Importance = c(0.04910409,0.02154762,0.05494384,0.06555726,0.13907403,0.02721062,0.02607797,0.06483063,0.04313501,0.17306942,0.0895939,0.24585558))
+  
+ggplot(data =adaboost.importance, aes(x=reorder(Features,Importance), y = Importance, width = 0.5)) +
+       geom_bar(stat ="identity", aes(fill = Features)) +
+       scale_fill_manual(values=c("vfleak" = '#0D96D1', "mav" = '#2EC423', "count3" = "#2EC423", "tci" = "#2EC423", "count2" = "#F52A1B", "frqbin" = "#F52A1B", "count1" = "#F52A1B", "abin" = "#F52A1B", "kurt" = "#F52A1B","cvbin"= "#F52A1B","exp" = "#F52A1B","cm" = "#F52A1B")) +
+       labs(x = "Features") + theme(legend.position = "none") +
+       theme(plot.title = ggplot2::element_text(lineheight=.9, face="bold"), panel.grid.major.y = ggplot2::element_blank()) +
+       coord_flip() + ggtitle("AdaBoost") + ylim(0.0,0.35)
+
+
+# SMOTE RF
+smote.rf.importance <- data.frame(Features = c("abin", "cm", "count1", "count2", "count3", "cvbin", "exp", "frqbin", "kurt", "mav", "tci", "vfleak"),
+                                  Importance = c(0.04765381,0.026386386,0.112277765,0.027894568,0.168205832,0.062380059,0.026746276,0.057548292,0.090867988,0.074807515,0.073033963,0.232197546))
+
+ggplot(data =smote.rf.importance, aes(x=reorder(Features,Importance), y = Importance, width = 0.5)) +
+  geom_bar(stat ="identity", aes(fill = Features)) +
+  scale_fill_manual(values=c("vfleak" = '#0D96D1', "mav" = '#F52A1B', "count3" = "#0D96D1", "tci" = "#F52A1B", "count2" = "#F52A1B", "frqbin" = "#F52A1B", "count1" = "#2EC423", "abin" = "#F52A1B", "kurt" = "#F52A1B","cvbin"= "#F52A1B","exp" = "#F52A1B","cm" = "#F52A1B")) +
+  labs(x = "Features") + theme(legend.position = "none") +
+  theme(plot.title = ggplot2::element_text(lineheight=.9, face="bold"), panel.grid.major.y = ggplot2::element_blank()) +
+  coord_flip() + ggtitle("SMOTE Random Forest") + ylim(0.0,0.35)
+
+# SMOTE AdaBoost 
+smote.adaboost.importance <- data.frame(Features = c("abin", "cm", "count1", "count2", "count3", "cvbin", "exp", "frqbin", "kurt", "mav", "tci", "vfleak"),
+                                  Importance = c(0.0433621,0.02659956,0.04940336,0.03692,0.096956681,0.03934783,0.065904781,0.079370171,0.040998,0.142292401,0.083514631,0.295330483))
+
+ggplot(data =smote.adaboost.importance, aes(x=reorder(Features,Importance), y = Importance, width = 0.5)) +
+  geom_bar(stat ="identity", aes(fill = Features)) +
+  scale_fill_manual(values=c("vfleak" = '#0D96D1', "mav" = '#0D96D1', "count3" = "#2EC423", "tci" = "#F52A1B", "count2" = "#F52A1B", "frqbin" = "#F52A1B", "count1" = "#F52A1B", "abin" = "#F52A1B", "kurt" = "#F52A1B","cvbin"= "#F52A1B","exp" = "#F52A1B","cm" = "#F52A1B")) +
+  labs(x = "Features") + theme(legend.position = "none") +
+  theme(plot.title = ggplot2::element_text(lineheight=.9, face="bold"), panel.grid.major.y = ggplot2::element_blank()) +
+  coord_flip() + ggtitle("SMOTE AdaBoost") + ylim(0.0,0.35)
+
+
 #############################################################
 stopCluster(cl)
